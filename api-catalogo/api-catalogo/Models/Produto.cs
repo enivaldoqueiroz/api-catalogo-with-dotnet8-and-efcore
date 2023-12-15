@@ -9,4 +9,10 @@ public class Produto
     public string? ImagemUrl { get; set; }
     public float Estoque { get; set; }
     public DateTime DataCadastro { get; set; }
+
+    //Propriedade de Categoria
+    public int CategoriaId { get; set; }
+
+    //Propriedade de navegação
+    public Categoria Categoria { get; set; }
 }
