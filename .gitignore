@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/api-catalogo/.vs
+/api-catalogo/api-catalogo/bin/Debug/net8.0
+/api-catalogo/api-catalogo/obj/Debug/net8.0/staticwebassets
+/api-catalogo/api-catalogo/obj/Debug/net8.0
+/api-catalogo/api-catalogo/obj
