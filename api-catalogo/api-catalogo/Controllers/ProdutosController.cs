@@ -33,5 +33,22 @@ namespace api_catalogo.Controllers
 
             return produtos;
         }
+
+
+        /*
+         Method: 
+         First() - Se não encontrar retorna uma exception
+         FirstOrDefault() - Se não encontrar retorna um null
+         */
+        [HttpGet("{id:int}")]
+        public ActionResult<Produto> Get(int id)
+        {
+            var produto = _context.Produtos.FirstOrDefault(p => p.ProdutoId == id);
+
+            if (produto == null)
+                return NotFound("Produto não encontrado!");
+
+            return produto;
+        }
     }
 }
