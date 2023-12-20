@@ -10,7 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //ConnectionStrings
-string connectionString = builder.Configuration.GetConnectionString("DefaulConnection");
+string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 //Configuração do banco
 builder.Services.AddDbContext<AppDbContext>
