@@ -20,13 +20,19 @@ namespace api_catalogo.Controllers
         [HttpGet("produtos")]
         public ActionResult<IEnumerable<Categoria>> GetCategoriasProdutos()
         {
-            return _context.Categorias.Include(p => p.Produtos).ToList();
+            return _context.Categorias
+                    .Include(p => p.Produtos)
+                    .Where(c => c.CategoriaId <= 5) //Otimizando o desempenho: Nunca retorne objetos relacionados sem aplicar um filtro
+                    .ToList();
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<Categoria>> Get()
         {
-            var categorias = _context.Categorias.ToList();
+            var categorias = _context.Categorias
+                                .AsNoTracking() //Otimizando o desempenho: Método AsNoTracking() ajuda na otimização das consultas Get()
+                                .Take(10)       //Otimizando o desempenho: Nunca retornar todos os registros em uma consulta
+                                .ToList();      
 
             if (categorias is null)
                 return NotFound("Categorias não encontrados");
