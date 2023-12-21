@@ -91,7 +91,7 @@ namespace api_catalogo.Controllers
         public ActionResult Post(Produto produto)
         {
             if (produto is null)
-                return BadRequest();
+                return BadRequest("Dados Invalidos.");
 
             _context.Produtos.Add(produto);
             _context.SaveChanges();
