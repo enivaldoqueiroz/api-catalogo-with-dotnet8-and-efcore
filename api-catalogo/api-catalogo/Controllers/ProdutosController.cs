@@ -2,6 +2,7 @@
 using api_catalogo.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace api_catalogo.Controllers
 {
@@ -99,5 +100,16 @@ namespace api_catalogo.Controllers
             return CreatedAtAction("GetProdutoById", new { id = produto.ProdutoId }, produto);
         }
 
+        [HttpPut("{id:int}")]
+        public ActionResult Put(int id, Produto produto)
+        {
+            if (id != produto.ProdutoId)
+                return BadRequest();
+
+            _context.Entry(produto).State = EntityState.Modified;
+            _context.SaveChanges();
+
+            return Ok(produto);
+        }
     }
 }
