@@ -29,33 +29,52 @@ namespace api_catalogo.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Categoria>> Get()
         {
-            var categorias = _context.Categorias
+            try
+            {
+                //throw new DataMisalignedException();//Forçando a exceção para testar o StatusCode
+
+                var categorias = _context.Categorias
                                 .AsNoTracking() //Otimizando o desempenho: Método AsNoTracking() ajuda na otimização das consultas Get()
                                 .Take(10)       //Otimizando o desempenho: Nunca retornar todos os registros em uma consulta
-                                .ToList();      
+                                .ToList();
 
-            if (categorias is null)
-                return NotFound("Categorias não encontrados");
+                if (categorias is null)
+                    return NotFound("Categorias não encontrados");
 
-            return categorias;
+                return categorias;
+            }
+            catch (Exception)
+            {
+                //link para outros StatusCodes https://learn.microsoft.com/pt-br/dotnet/api/microsoft.aspnetcore.http.statuscodes?view=aspnetcore-8.0
+                return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao tratar a sua solicitação. Entre em contato com o suporte.");
+            }
         }
 
         [HttpGet("{id:int}", Name = "GetCategoriaById")]
         public ActionResult<Categoria> GetCategoriaById(int id)
         {
-            var categoria = _context.Categorias.FirstOrDefault(p => p.CategoriaId == id);
+            try
+            {
+                var categoria = _context.Categorias.FirstOrDefault(p => p.CategoriaId == id);
 
-            if (categoria == null)
-                return NotFound("Categoria não encontrado!");
+                if (categoria == null)
+                    return NotFound($"Categoria com id = {id} não encontrado...");
 
-            return categoria;
+                return categoria;
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, 
+                        "Ocorreu um problema ao tratar a sua solicitação. Entre em contato com o suporte.");
+            }
+            
         }
 
         [HttpPost]
         public ActionResult Post(Categoria categoria)
         {
             if (categoria is null)
-                return BadRequest();
+                return BadRequest("Dados Invalidos.");
 
             _context.Categorias.Add(categoria);
             _context.SaveChanges();
@@ -67,7 +86,7 @@ namespace api_catalogo.Controllers
         public ActionResult Put(int id, Categoria categoria)
         {
             if (id != categoria.CategoriaId)
-                return BadRequest();
+                return BadRequest("Dados Invalidos.");
 
             _context.Entry(categoria).State = EntityState.Modified;
             _context.SaveChanges();
@@ -78,11 +97,11 @@ namespace api_catalogo.Controllers
         [HttpDelete("{id:int}")]
         public ActionResult Delete(int id)
         {
-            //var produto = _context.Produtos.Find(id);
+            //var produto = _context.Produtos.Find(id);//Outra forma de localizar o id
             var categoria = _context.Categorias.FirstOrDefault(p => p.CategoriaId == id);
 
             if (categoria is null)
-                return NotFound();
+                return NotFound($"Categoria com id = {id} não encontrado...");
 
             _context.Categorias.Remove(categoria);
             _context.SaveChanges();
