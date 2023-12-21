@@ -40,8 +40,8 @@ namespace api_catalogo.Controllers
          First() - Se não encontrar retorna uma exception
          FirstOrDefault() - Se não encontrar retorna um null
          */
-        [HttpGet("{id:int}")]
-        public ActionResult<Produto> Get(int id)
+        [HttpGet("{id:int}", Name="GetProdutoById")]
+        public ActionResult<Produto> GetProdutoById(int id)
         {
             var produto = _context.Produtos.FirstOrDefault(p => p.ProdutoId == id);
 
@@ -50,5 +50,54 @@ namespace api_catalogo.Controllers
 
             return produto;
         }
+
+        /*
+         Obs: Ao utilizarmos a DataAnnotation [ApiController] não precisamos
+         inserir o [FromBody] Produto produto na assinatura do método e nem 
+         colocar a validação ModelState.IsValid.
+
+            [HttpPost]
+            public ActionResult PostWithFromBody([FromBody]Produto produto)
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(produto);
+
+                return Ok(produto);
+            }
+         */
+
+        //[HttpPost]
+        //public ActionResult Post(Produto produto)
+        //{
+        //    if (produto is null)
+        //        return BadRequest();
+
+        //    _context.Produtos.Add(produto); //Método Add() inclui o produto no contexto
+        //    _context.SaveChanges(); //Método SaveChanges() Persisti os dados na tabela Produtos 
+
+        //    /*
+        //     A instancia CreatedAtActionResult vai ocionar o endpoint ObterProduto - public ActionResult<Produto> Get(int id) para retorbar o id
+        //     */
+        //    var var = new CreatedAtActionResult("GetProdutoById", "GetProdutoById", new { id = produto.ProdutoId }, produto);
+        //    return Ok(var.Value);
+
+        //    //return new CreatedAtActionResult(nameof(GetProdutoById), "GetProdutoById", new { id = produto.ProdutoId }, produto); ; //Retorna 201 Created
+
+        // OBS: a Classe CreatedAtActionResult não está funcionando para esse caso
+        //}
+
+        [HttpPost]
+        public ActionResult Post(Produto produto)
+        {
+            if (produto is null)
+                return BadRequest();
+
+            _context.Produtos.Add(produto);
+            _context.SaveChanges();
+
+            // Use CreatedAtAction para criar a resposta 201 Created
+            return CreatedAtAction("GetProdutoById", new { id = produto.ProdutoId }, produto);
+        }
+
     }
 }
