@@ -1,11 +1,16 @@
 using api_catalogo.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();//Método responsável por habiltar os serviços dos controladores//Método responsável por habiltar os serviços dos controladores 
+//Método responsável por habiltar os serviços dos controladores 
+builder.Services.AddControllers()
+    .AddJsonOptions(options => options.JsonSerializerOptions
+    .ReferenceHandler = ReferenceHandler.IgnoreCycles);//Ignora uma referencia cicla
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
