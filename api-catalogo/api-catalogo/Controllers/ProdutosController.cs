@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace api_catalogo.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]//Rotas produtos
     [ApiController]
     public class ProdutosController : ControllerBase
     {
@@ -15,6 +15,19 @@ namespace api_catalogo.Controllers
         public ProdutosController(AppDbContext appDbContext)
         {
             _context = appDbContext;
+        }
+        // /api/primeiro
+        [HttpGet("primeiro")]   // Atendendo 3 endpoint distintos
+        [HttpGet("teste")]      // Atendendo 3 endpoint distintos
+        [HttpGet("/primeiro")]  // Atendendo 3 endpoint distintos
+        public ActionResult<Produto> GetPrimeiro()
+        {
+            var produto = _context.Produtos.FirstOrDefault();
+
+            if (produto is null)
+                return NotFound("Produto não encontrado");
+
+            return produto;
         }
 
         /*
@@ -41,9 +54,13 @@ namespace api_catalogo.Controllers
          First() - Se não encontrar retorna uma exception
          FirstOrDefault() - Se não encontrar retorna um null
          */
-        [HttpGet("{id:int}", Name="GetProdutoById")]
-        public ActionResult<Produto> GetProdutoById(int id)
+
+        // /api/produtos/id
+        [HttpGet("{id:int}/{nome=Caderno}", Name="GetProdutoById")]
+        public ActionResult<Produto> GetProdutoById(int id, string nome)
         {
+            var parametro = param2;
+
             var produto = _context.Produtos.FirstOrDefault(p => p.ProdutoId == id);
 
             if (produto == null)
