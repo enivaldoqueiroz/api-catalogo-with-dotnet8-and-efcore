@@ -1,6 +1,7 @@
 ﻿using api_catalogo.Context;
 using api_catalogo.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 
 namespace api_catalogo.Controllers
@@ -38,7 +39,7 @@ namespace api_catalogo.Controllers
 
         // /api/produtos/id
         [HttpGet("{id}", Name = "GetProdutoById")] //Restrição de Id no minimo 1 ou mior que 1
-        public async Task<ActionResult<Produto>>  Get(int id)
+        public async Task<ActionResult<Produto>> Get([FromQuery]int id)
         {
             var produto = await _context.Produtos
                 .AsNoTracking()
