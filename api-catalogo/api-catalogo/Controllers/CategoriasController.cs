@@ -1,12 +1,13 @@
 ﻿using api_catalogo.Context;
 using api_catalogo.Models;
+using api_catalogo.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace api_catalogo.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class CategoriasController : ControllerBase
     {
@@ -15,6 +16,12 @@ namespace api_catalogo.Controllers
         public CategoriasController(AppDbContext appDbContext)
         {
             _context = appDbContext;
+        }
+
+        [HttpGet("saudacao/{nome}")]
+        public ActionResult<string> GetSaudacao([FromServices] IMeuServico meuServico, string nome)
+        {
+            return meuServico.Saudacao(nome);
         }
 
         [HttpGet("produtos")]

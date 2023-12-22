@@ -1,4 +1,5 @@
 using api_catalogo.Context;
+using api_catalogo.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -23,6 +24,8 @@ builder.Services.AddDbContext<AppDbContext>
     {
         opts.UseNpgsql(connectionString);
     });
+
+builder.Services.AddTransient<IMeuServico, MeuServico>();
 
 var app = builder.Build();
 
