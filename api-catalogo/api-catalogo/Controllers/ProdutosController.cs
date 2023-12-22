@@ -178,5 +178,39 @@ namespace api_catalogo.Controllers
 
             return Ok(produto);
         }
+
+        //Tipos de Retorno
+
+        /*
+         #IActionResult
+         Tipo de retorno IActionResult para retornos de StatusCode
+         Obs: Podemos usar o IActionResult ou o ActionResult, mas o ideia é o usar a interface
+         */
+        [HttpGet]
+        public IActionResult Get3()
+        {
+            var produtos = _context.Produtos.ToList();
+
+            if (produtos is null)
+                return NotFound("Produtos não encontrados");
+
+            return Ok();
+        }
+
+        /*
+         ActionResult<T> : Permite o retorno de um tipo derivado de ActionResult ou o retorno de um 
+         tipo especifico(T)
+         */
+        [HttpGet]
+        public ActionResult<Produto> Get4()
+        {
+            var produtos = _context.Produtos.ToList();
+
+            if (produtos is null)
+                return NotFound("Produtos não encontrados");
+
+            return Ok();
+        }
+
     }
 }
