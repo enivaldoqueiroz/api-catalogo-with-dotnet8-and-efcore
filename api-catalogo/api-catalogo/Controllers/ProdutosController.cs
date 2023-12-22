@@ -30,6 +30,22 @@ namespace api_catalogo.Controllers
             return produto;
         }
 
+        // /api/primeiro
+        //Retrinção para reconhecer letras: valor:alpha
+        //Retrinção para reconhecer letras e com tamanha de 5 caracteres: valor:alpha:length(5)
+        [HttpGet("{valor:alpha:length(5)}")] //Restrição de valores somente de A à Z
+        public ActionResult<Produto> Get2(string valor)
+        {
+            var valorAlpha = valor;
+            var produto = _context.Produtos.FirstOrDefault();
+
+            if (produto is null)
+                return NotFound("Produto não encontrado");
+
+            return produto;
+        }
+
+
         /*
          * Endpoint não assincrono que retorna uma lista de Produtos em caso de sucesso 
          * e em caso de produto nulo retorna uma Status 404.
@@ -56,12 +72,31 @@ namespace api_catalogo.Controllers
          */
 
         // /api/produtos/id
-        [HttpGet("{id:int}/{nome=Caderno}", Name="GetProdutoById")]
-        public ActionResult<Produto> GetProdutoById(int id, string nome)
-        {
-            var parametro = param2;
+        //[HttpGet("{id:int}/{nome=Caderno}", Name="GetProdutoById")]
+        //public ActionResult<Produto> GetProdutoById(int id, string nome)
+        //{
+        //    var parametro = nome;
 
-            var produto = _context.Produtos.FirstOrDefault(p => p.ProdutoId == id);
+        //    var produto = _context.Produtos.FirstOrDefault(p => p.ProdutoId == id);
+
+        //    if (produto == null)
+        //        return NotFound("Produto não encontrado!");
+
+        //    return produto;
+        //}
+
+        /*
+        Para inserir uma restrição em uma endpoint demoves inserir
+        id:int:min(1) para fim de evitar consultas desnecessaria
+         */
+
+        // /api/produtos/id
+        [HttpGet("{id:int:min(1)}", Name = "ObterProduto")] //Restrição de Id no minimo 1 ou mior que 1
+        public ActionResult<Produto> Get(int id)
+        {
+            var produto = _context.Produtos
+                .AsNoTracking()
+                .FirstOrDefault(p => p.ProdutoId == id);
 
             if (produto == null)
                 return NotFound("Produto não encontrado!");
