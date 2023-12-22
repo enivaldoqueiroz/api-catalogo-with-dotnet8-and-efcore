@@ -34,7 +34,8 @@ namespace api_catalogo.Controllers
         //Retrinção para reconhecer letras: valor:alpha
         //Retrinção para reconhecer letras e com tamanha de 5 caracteres: valor:alpha:length(5)
         [HttpGet("{valor:alpha:length(5)}")] //Restrição de valores somente de A à Z
-        public ActionResult<Produto> Get2(string valor)
+        [HttpGet("RestricaoPorCaracteres")]
+        public ActionResult<Produto> GetRestricaoPorCaracteres(string valor)
         {
             var valorAlpha = valor;
             var produto = _context.Produtos.FirstOrDefault();
@@ -187,6 +188,7 @@ namespace api_catalogo.Controllers
          Obs: Podemos usar o IActionResult ou o ActionResult, mas o ideia é o usar a interface
          */
         [HttpGet]
+        [Route("GetWithIActionResult")]
         public IActionResult Get3()
         {
             var produtos = _context.Produtos.ToList();
@@ -202,6 +204,7 @@ namespace api_catalogo.Controllers
          tipo especifico(T)
          */
         [HttpGet]
+        [Route("GetWithActionResult")]
         public ActionResult<Produto> Get4()
         {
             var produtos = _context.Produtos.ToList();
@@ -211,6 +214,9 @@ namespace api_catalogo.Controllers
 
             return Ok();
         }
+
+        //Metodos Actions Assícronos
+
 
     }
 }
