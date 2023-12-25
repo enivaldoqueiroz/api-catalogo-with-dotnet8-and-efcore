@@ -6,18 +6,18 @@ using System.Text.Json.Serialization;
 namespace api_catalogo.Models;
 
 [Table("Produtos")]
-public class Produto
+public class Produto : IValidatableObject
 {
     [Key]
     public int ProdutoId { get; set; }
 
     [Required(ErrorMessage = "O nome é obrigatório")]
-    [StringLength(80, ErrorMessage = "O nome deve ter entre 5 e 20 caracteres", MinimumLength = 5)]
-    [PrimeiraLetraMaiuscula]
+    [StringLength(80, ErrorMessage = "O nome deve ter no máximo {1} e no mínimo {2} caracteres", MinimumLength = 5)]
+    //[PrimeiraLetraMaiuscula]
     public string? Nome { get; set; }
 
     [Required]
-    [StringLength(10, ErrorMessage = "A descrição deve ter no máximo {1} caracterres")]
+    [StringLength(80, ErrorMessage = "A descrição deve ter no máximo {1} caracterres")]
     public string? Descricao { get; set; }
 
     [Required]
@@ -36,4 +36,29 @@ public class Produto
 
     [JsonIgnore]//Removendo a serialização das informações de Categoria em Produtos
     public Categoria? Categoria { get; set; } //Propriedade de navegação
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if (!string.IsNullOrEmpty(this.Nome))
+        {
+            var primeiraLetra = this.Nome[0].ToString();
+            if (primeiraLetra != primeiraLetra.ToUpper())
+            {
+                yield return new ValidationResult("A primeira letra do produto deve ser maiúscula",
+                    new[]
+                    {
+                        nameof(this.Nome)
+                    });
+            }
+        }
+
+        if (this.Estoque <= 0) 
+        {
+            yield return new ValidationResult("O estoque deve ser maior que 0",
+                new[]
+                {
+                    nameof(this.Estoque)
+                });
+        }
+    }
 }
