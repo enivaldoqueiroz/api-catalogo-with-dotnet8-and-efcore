@@ -1,4 +1,5 @@
 using api_catalogo.Context;
+using api_catalogo.Filters;
 using api_catalogo.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
@@ -14,6 +15,7 @@ builder.Services.AddControllers()
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<ApiLoggingFilter>();
 
 //ConnectionStrings
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

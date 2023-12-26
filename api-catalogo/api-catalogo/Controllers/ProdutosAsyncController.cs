@@ -1,4 +1,5 @@
 ﻿using api_catalogo.Context;
+using api_catalogo.Filters;
 using api_catalogo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -32,6 +33,7 @@ namespace api_catalogo.Controllers
 
         // /api/produtos/
         [HttpGet]
+        [ServiceFilter(typeof(ApiLoggingFilter))]//Filter criado para salvar os logger antes de exeutar a Action Get2
         public async Task<ActionResult<IEnumerable<Produto>>> Get2() 
         { 
             return await _context.Produtos.AsNoTracking().ToListAsync(); 
