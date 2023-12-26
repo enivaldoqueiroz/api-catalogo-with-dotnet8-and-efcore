@@ -1,4 +1,5 @@
 using api_catalogo.Context;
+using api_catalogo.Extensions;
 using api_catalogo.Filters;
 using api_catalogo.Services;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +38,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.ConfigureExceptionHandler();//Middle de tramento de erros personalizado
 
 app.UseHttpsRedirection();
 

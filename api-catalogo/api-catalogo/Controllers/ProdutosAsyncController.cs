@@ -19,17 +19,17 @@ namespace api_catalogo.Controllers
         }
 
         // /api/primeiro
-        [HttpGet("{valor:alpha:length(5)}")]
-        public ActionResult<Produto> GetRestricaoPorCaracteres(string valor)
-        {
-            var valorAlpha = valor;
-            var produto = _context.Produtos.FirstOrDefault();
+        //[HttpGet("{valor:alpha:length(5)}")]
+        //public ActionResult<Produto> GetRestricaoPorCaracteres(string valor)
+        //{
+        //    var valorAlpha = valor;
+        //    var produto = _context.Produtos.FirstOrDefault();
 
-            if (produto is null)
-                return NotFound("Produto não encontrado");
+        //    if (produto is null)
+        //        return NotFound("Produto não encontrado");
 
-            return produto;
-        }
+        //    return produto;
+        //}
 
         // /api/produtos/
         [HttpGet]
@@ -41,8 +41,16 @@ namespace api_catalogo.Controllers
 
         // /api/produtos/id
         [HttpGet("{id}", Name = "GetProdutoById")] //Restrição de Id no minimo 1 ou mior que 1
-        public async Task<ActionResult<Produto>> Get([FromQuery]int id)
+        public async Task<ActionResult<Produto>> Get(int id)
         {
+            //throw new Exception("Exception ao retornar produto pelo id");
+
+            //string[] teste = null;
+            //if (teste.Length > 1)
+            //{
+
+            //}
+
             var produto = await _context.Produtos
                 .AsNoTracking()
                 .FirstOrDefaultAsync(p => p.ProdutoId == id);
