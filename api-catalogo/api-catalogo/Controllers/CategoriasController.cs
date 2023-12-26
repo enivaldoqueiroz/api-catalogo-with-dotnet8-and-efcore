@@ -13,11 +13,13 @@ namespace api_catalogo.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IConfiguration _configuration;
+        private readonly ILogger _logger;
 
-        public CategoriasController(AppDbContext appDbContext, IConfiguration configuration)
+        public CategoriasController(AppDbContext appDbContext, IConfiguration configuration, ILogger<CategoriasController> logger)
         {
             _context = appDbContext;
             _configuration = configuration;
+            _logger = logger;
         }
 
         [HttpGet("autor")]
@@ -38,6 +40,8 @@ namespace api_catalogo.Controllers
         [HttpGet("produtos")]
         public ActionResult<IEnumerable<Categoria>> GetCategoriasProdutos()
         {
+            _logger.LogInformation("=================GET api/categoria/produtos==================");
+
             return _context.Categorias
                     .Include(p => p.Produtos)
                     .Where(c => c.CategoriaId <= 5) //Otimizando o desempenho: Nunca retorne objetos relacionados sem aplicar um filtro
@@ -50,7 +54,7 @@ namespace api_catalogo.Controllers
             try
             {
                 //throw new DataMisalignedException();//Forçando a exceção para testar o StatusCode
-
+                _logger.LogInformation("=================GET api/categorias==================");
                 var categorias = _context.Categorias
                                 .AsNoTracking() //Otimizando o desempenho: Método AsNoTracking() ajuda na otimização das consultas Get()
                                 .Take(10)       //Otimizando o desempenho: Nunca retornar todos os registros em uma consulta
@@ -73,10 +77,15 @@ namespace api_catalogo.Controllers
         {
             try
             {
+                _logger.LogInformation($"=================GET api/categoria/id = {id}==================");
+
                 var categoria = _context.Categorias.FirstOrDefault(p => p.CategoriaId == id);
 
                 if (categoria == null)
+                {
+                    _logger.LogInformation($"=================GET api/categoria/id = {id} NOT FOUND==================");
                     return NotFound($"Categoria com id = {id} não encontrado...");
+                }
 
                 return categoria;
             }
