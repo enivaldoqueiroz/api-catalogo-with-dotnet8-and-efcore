@@ -1,6 +1,7 @@
 using api_catalogo.Context;
 using api_catalogo.Extensions;
 using api_catalogo.Filters;
+using api_catalogo.Logging;
 using api_catalogo.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
@@ -38,6 +39,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//Não esta funcionando pois esta pois esta no padrão do .Net6
+ILoggerFactory loggerFactory = LoggerFactory.Create(builder => {
+    builder.AddProvider(new CustomLoggerProvider(new CustomLoggerProviderConfiguration
+    {
+        LogLevel = LogLevel.Information
+    }));
+});
 
 app.ConfigureExceptionHandler();//Middle de tramento de erros personalizado
 
