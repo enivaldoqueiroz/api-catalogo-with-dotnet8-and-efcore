@@ -33,8 +33,9 @@ namespace api_catalogo.Controllers
         }
        
         // /api/produtos/id
-        [HttpGet("{id}", Name = "GetProdutoComUOWById")]
-        public ActionResult<Produto> GetProdutosById(int id)
+        [HttpGet("{id}")]
+        [ActionName(nameof(GetProdutoComUOWById))]
+        public ActionResult<Produto> GetProdutoComUOWById(int id)
         {
             var produto = _unitOfWork.ProdutoRepository.GetById(p => p.ProdutoId == id);
 
@@ -53,8 +54,10 @@ namespace api_catalogo.Controllers
             _unitOfWork.ProdutoRepository.Add(produto);
             _unitOfWork.Commit();
 
+           var rota = new { id = produto.ProdutoId };
+
             // Use CreatedAtAction para criar a resposta 201 Created
-            return CreatedAtAction("GetProdutoComUOWById", new { id = produto.ProdutoId }, produto);
+            return CreatedAtAction(nameof(GetProdutoComUOWById), rota, produto);
         }
 
         [HttpPut("{id:int}")]
