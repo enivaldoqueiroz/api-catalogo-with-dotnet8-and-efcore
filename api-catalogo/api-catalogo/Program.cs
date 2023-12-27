@@ -2,6 +2,7 @@ using api_catalogo.Context;
 using api_catalogo.Extensions;
 using api_catalogo.Filters;
 using api_catalogo.Logging;
+using api_catalogo.Repository;
 using api_catalogo.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
@@ -15,9 +16,9 @@ builder.Services.AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions
     .ReferenceHandler = ReferenceHandler.IgnoreCycles);//Ignora uma referencia cicla
 
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<ApiLoggingFilter>();
 
 //ConnectionStrings
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -29,7 +30,9 @@ builder.Services.AddDbContext<AppDbContext>
         opts.UseNpgsql(connectionString);
     });
 
+builder.Services.AddScoped<ApiLoggingFilter>();
 builder.Services.AddTransient<IMeuServico, MeuServico>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 
