@@ -1,4 +1,5 @@
-﻿using api_catalogo.Models;
+﻿using api_catalogo.DTOs;
+using api_catalogo.Models;
 using api_catalogo.Repository;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,14 +36,25 @@ namespace api_catalogo.Controllers
         // /api/produtos/id
         [HttpGet("{id}")]
         [ActionName(nameof(GetProdutoComUOWById))]
-        public ActionResult<Produto> GetProdutoComUOWById(int id)
+        public ActionResult<ProdutoDTO> GetProdutoComUOWById(int id)
         {
             var produto = _unitOfWork.ProdutoRepository.GetById(p => p.ProdutoId == id);
 
             if (produto == null)
                 return NotFound("Produto não encontrado!");
 
-            return produto;
+            //Mapeamento de um DTO de forma manual
+            ProdutoDTO produtoDTO = new ProdutoDTO
+            {
+                ProdutoId = produto.ProdutoId,
+                Nome = produto.Nome,
+                Preco = produto.Preco,
+                ImagemUrl = produto.ImagemUrl,
+                Descricao = produto.Descricao,
+                CategoriaId = produto.CategoriaId
+            };
+
+            return produtoDTO;
         }
 
         [HttpPost]

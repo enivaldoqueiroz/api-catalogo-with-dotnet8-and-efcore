@@ -1,9 +1,11 @@
 using api_catalogo.Context;
+using api_catalogo.DTOs.Mappings;
 using api_catalogo.Extensions;
 using api_catalogo.Filters;
 using api_catalogo.Logging;
 using api_catalogo.Repository;
 using api_catalogo.Services;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -33,6 +35,14 @@ builder.Services.AddDbContext<AppDbContext>
 builder.Services.AddScoped<ApiLoggingFilter>();
 builder.Services.AddTransient<IMeuServico, MeuServico>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+//Registro do serviço de Mapeamento do AutoMapper
+var mappingConfig = new MapperConfiguration(mc => 
+{
+    mc.AddProfile(new MappingProfile());
+});
+IMapper mapper = mappingConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
 
 var app = builder.Build();
 
