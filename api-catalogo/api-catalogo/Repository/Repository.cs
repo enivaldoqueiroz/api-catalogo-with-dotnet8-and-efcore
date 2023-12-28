@@ -22,7 +22,7 @@ namespace api_catalogo.Repository
         {
             if (predicate == null) throw new ArgumentNullException(nameof(predicate));
 
-            return _appDbContext.Set<T>().SingleOrDefault(predicate);
+            return _appDbContext.Set<T>().AsNoTracking().SingleOrDefault(predicate);
         }
 
         //O método Set<T> do contexto retorna uma instância DbSet<T>
@@ -34,7 +34,8 @@ namespace api_catalogo.Repository
 
         public void Update(T entity)
         {
-            _appDbContext.Update(entity);
+            _appDbContext.Entry(entity).State = EntityState.Modified;
+            _appDbContext.Set<T>().Update(entity);
         }
 
         public void Delete(T entity)

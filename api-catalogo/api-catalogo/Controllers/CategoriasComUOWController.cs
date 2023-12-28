@@ -39,8 +39,9 @@ namespace api_catalogo.Controllers
             }
         }
 
-        [HttpGet("{id:int}", Name = "GetCategoriaComUOWById")]
-        public ActionResult<Categoria> GetCategoriaById(int id)
+        [HttpGet("{id:int}")]
+        [ActionName(nameof(GetCategoriasProdutosById))]
+        public ActionResult<Categoria> GetCategoriasProdutosById(int id)
         {
             try
             {
@@ -68,7 +69,7 @@ namespace api_catalogo.Controllers
             _unitOfWork.CategoriaRepository.Add(categoria);
             _unitOfWork.Commit();
 
-            return CreatedAtAction("GetCategoriaComUOWById", new { id = categoria.CategoriaId }, categoria);
+            return CreatedAtAction("GetCategoriasProdutosById", new { id = categoria.CategoriaId }, categoria);
         }
 
         [HttpPut("{id:int}")]

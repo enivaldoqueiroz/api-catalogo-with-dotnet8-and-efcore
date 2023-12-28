@@ -64,7 +64,7 @@ namespace api_catalogo.Controllers
         public ActionResult Put(int id, Produto produto)
         {
             if (id != produto.ProdutoId)
-                return BadRequest();
+                return BadRequest($"Produto com Id : {id} errado");
 
             _unitOfWork.ProdutoRepository.Update(produto);
             _unitOfWork.Commit();

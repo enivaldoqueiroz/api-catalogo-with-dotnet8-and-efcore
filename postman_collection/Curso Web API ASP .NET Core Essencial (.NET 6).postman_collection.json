@@ -1,0 +1,498 @@
+{
+	"info": {
+		"_postman_id": "1f7e4950-fa87-4e7f-ae66-c636cf956dbe",
+		"name": "Curso Web API ASP .NET Core Essencial (.NET 6)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31428447",
+		"_collection_link": "https://gold-shuttle-243800.postman.co/workspace/API-Setling~7597153e-0a50-42de-8116-8f9f8d3ba9eb/collection/31428447-1f7e4950-fa87-4e7f-ae66-c636cf956dbe?action=share&source=collection_link&creator=31428447"
+	},
+	"item": [
+		{
+			"name": "Sem Unit of Work",
+			"item": [
+				{
+					"name": "Produtos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7033/Produtos",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7033",
+							"path": [
+								"Produtos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PutProdutoByIdAndProduto",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7033/Produtos/24",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7033",
+							"path": [
+								"Produtos",
+								"24"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PostProduto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nome\": \"Suco de morango\",\r\n  \"descricao\": \"Suco de morango 300ml\",\r\n  \"preco\": 0,\r\n  \"imagemUrl\": \"sucomorando.jpg\",\r\n  \"estoque\": 20,\r\n  \"dataCadastro\": \"2023-12-21T15:58:10.721Z\",\r\n  \"categoriaId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7033/api/Produtos",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7033",
+							"path": [
+								"api",
+								"Produtos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetProdutoById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7033/Produtos/6",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7033",
+							"path": [
+								"Produtos",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetProdutoAsyncById Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7033/Produtos/6",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7033",
+							"path": [
+								"Produtos",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetProdutoByRestricao",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7033/api/Produtos/",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7033",
+							"path": [
+								"api",
+								"Produtos",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteProdutoById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7033/Produtos/6",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7033",
+							"path": [
+								"Produtos",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Produtos",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nome\": \"Suco de morango\",\r\n  \"descricao\": \"Suco de morango 300ml\",\r\n  \"preco\": 0,\r\n  \"imagemUrl\": \"sucomorando.jpg\",\r\n  \"estoque\": 20,\r\n  \"dataCadastro\": \"2023-12-21T15:58:10.721Z\",\r\n  \"categoriaId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7033/Produtos",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7033",
+							"path": [
+								"Produtos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Com Unit of Work",
+			"item": [
+				{
+					"name": "Produtos",
+					"item": [
+						{
+							"name": "Produtos",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:7033/api/ProdutosComUOW",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7033",
+									"path": [
+										"api",
+										"ProdutosComUOW"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UpdateProdutosById",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"produtoId\": 39,\r\n    \"nome\": \"Update Produto 003\",\r\n    \"descricao\": \"Update Suco de novo produto 100ml\",\r\n    \"preco\": 8.88,\r\n    \"imagemUrl\": \"updatenovoproduto.jpg\",\r\n    \"estoque\": 10,\r\n    \"dataCadastro\": \"2023-12-27T12:25:39.256Z\",\r\n    \"categoriaId\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7033/api/ProdutosComUOW/39",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7033",
+									"path": [
+										"api",
+										"ProdutosComUOW",
+										"39"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DeleteProdutosById",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"produtoId\": 0,\r\n  \"nome\": \"string\",\r\n  \"descricao\": \"string\",\r\n  \"preco\": 10000,\r\n  \"imagemUrl\": \"string\",\r\n  \"estoque\": 0,\r\n  \"dataCadastro\": \"2023-12-28T11:55:31.214Z\",\r\n  \"categoriaId\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7033/api/ProdutosComUOW/37",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7033",
+									"path": [
+										"api",
+										"ProdutosComUOW",
+										"37"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AddProdutos",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nome\": \"Novo Produto 003\",\r\n  \"descricao\": \"Suco de novo produto 100ml\",\r\n  \"preco\": 7.55,\r\n  \"imagemUrl\": \"novoproduto.jpg\",\r\n  \"estoque\": 10,\r\n  \"dataCadastro\": \"2023-12-27T12:25:39.256Z\",\r\n  \"categoriaId\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7033/api/ProdutosComUOW",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7033",
+									"path": [
+										"api",
+										"ProdutosComUOW"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ProdutosById",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:7033/api/ProdutosComUOW/37",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7033",
+									"path": [
+										"api",
+										"ProdutosComUOW",
+										"37"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Categorias",
+					"item": [
+						{
+							"name": "GetCategoriasProdutosById",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:7033/api/CategoriasComUOW/1",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7033",
+									"path": [
+										"api",
+										"CategoriasComUOW",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetCategoriasById",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:7033/api/CategoriasComUOW",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7033",
+									"path": [
+										"api",
+										"CategoriasComUOW"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetCategoriasById Copy",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:7033/api/CategoriasComUOW/1",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7033",
+									"path": [
+										"api",
+										"CategoriasComUOW",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UpdateCategoriasById",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"categoriaId\": 6,\r\n    \"nome\": \"Nova Categoria 004\",\r\n    \"imagemUrl\": \"nova_categoria_004.jpg\",\r\n    \"produtos\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7033/api/CategoriasComUOW",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7033",
+									"path": [
+										"api",
+										"CategoriasComUOW"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetCategorias",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:7033/api/CategoriasComUOW",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7033",
+									"path": [
+										"api",
+										"CategoriasComUOW"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AddCategorias",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\": \"Nova Categoria 001\",\r\n    \"imagemUrl\": \"nova_categoria_001.jpg\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7033/api/CategoriasComUOW",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7033",
+									"path": [
+										"api",
+										"CategoriasComUOW"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetCategoriasProdutos",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:7033/api/CategoriasComUOW",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7033",
+									"path": [
+										"api",
+										"CategoriasComUOW"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
