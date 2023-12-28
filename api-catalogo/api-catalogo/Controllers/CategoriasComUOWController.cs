@@ -1,5 +1,7 @@
-﻿using api_catalogo.Models;
+﻿using api_catalogo.DTOs;
+using api_catalogo.Models;
 using api_catalogo.Repository;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api_catalogo.Controllers
@@ -9,20 +11,25 @@ namespace api_catalogo.Controllers
     public class CategoriasComUOWController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public CategoriasComUOWController(IUnitOfWork unitOfWork)
+        public CategoriasComUOWController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         [HttpGet("produtos")]
-        public ActionResult<IEnumerable<Categoria>> GetCategoriasProdutos()
+        public ActionResult<IEnumerable<CategoriaDTO>> GetCategoriasProdutos()
         {
-            return _unitOfWork.CategoriaRepository.GetCategoriasProdutos().ToList();
+            var categorias = _unitOfWork.CategoriaRepository.GetCategoriasProdutos().ToList();
+            var categoriasDto = _mapper.Map<List<CategoriaDTO>>(categorias);
+            
+            return categoriasDto;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Categoria>> Get()
+        public ActionResult<IEnumerable<CategoriaDTO>> GetCategorias()
         {
             try
             {
@@ -31,7 +38,9 @@ namespace api_catalogo.Controllers
                 if (categorias is null)
                     return NotFound("Categorias não encontrados");
 
-                return categorias;
+                var categoriasDto = _mapper.Map<List<CategoriaDTO>>(categorias);
+
+                return categoriasDto;
             }
             catch (Exception)
             {
@@ -41,7 +50,7 @@ namespace api_catalogo.Controllers
 
         [HttpGet("{id:int}")]
         [ActionName(nameof(GetCategoriasProdutosById))]
-        public ActionResult<Categoria> GetCategoriasProdutosById(int id)
+        public ActionResult<CategoriaDTO> GetCategoriasProdutosById(int id)
         {
             try
             {
@@ -50,21 +59,24 @@ namespace api_catalogo.Controllers
                 if (categoria == null)
                     return NotFound($"Categoria com id = {id} não encontrado...");
 
-                return categoria;
+                var categoriaDto = _mapper.Map<CategoriaDTO>(categoria);
+
+                return categoriaDto;
             }
             catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, 
                         "Ocorreu um problema ao tratar a sua solicitação. Entre em contato com o suporte.");
             }
-            
         }
 
         [HttpPost]
-        public ActionResult Post(Categoria categoria)
+        public ActionResult Post(CategoriaDTO categoriaDto)
         {
-            if (categoria is null)
+            if (categoriaDto is null)
                 return BadRequest("Dados Invalidos.");
+
+            var categoria = _mapper.Map<Categoria>(categoriaDto);
 
             _unitOfWork.CategoriaRepository.Add(categoria);
             _unitOfWork.Commit();
@@ -73,13 +85,17 @@ namespace api_catalogo.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public ActionResult Put(int id, Categoria categoria)
+        public ActionResult Put(int id, CategoriaDTO categoriaDto)
         {
-            if (id != categoria.CategoriaId)
+            if (id != categoriaDto.CategoriaId)
                 return BadRequest("Dados Invalidos.");
+
+            var categoria = _mapper.Map<Categoria>(categoriaDto);
 
             _unitOfWork.CategoriaRepository.Update(categoria);
             _unitOfWork.Commit();
+
+            var categoriaDTO = _mapper.Map<CategoriaDTO>(categoria);
 
             return Ok(categoria);
         }
@@ -95,7 +111,9 @@ namespace api_catalogo.Controllers
             _unitOfWork.CategoriaRepository.Delete(categoria);
             _unitOfWork.Commit();
 
-            return Ok(categoria);
+            var categoriaDto = _mapper.Map<CategoriaDTO>(categoria);
+
+            return Ok(categoriaDto);
         }
     }
 }
