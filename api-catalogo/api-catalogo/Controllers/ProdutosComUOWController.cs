@@ -1,7 +1,7 @@
 ﻿using api_catalogo.DTOs;
 using api_catalogo.Models;
 using api_catalogo.Pagination;
-using api_catalogo.Repository;
+using api_catalogo.Repository.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;

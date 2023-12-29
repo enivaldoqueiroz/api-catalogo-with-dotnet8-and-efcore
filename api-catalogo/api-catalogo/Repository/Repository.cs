@@ -1,4 +1,5 @@
 ﻿using api_catalogo.Context;
+using api_catalogo.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 

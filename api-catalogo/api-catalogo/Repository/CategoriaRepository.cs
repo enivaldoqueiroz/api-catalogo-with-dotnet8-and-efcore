@@ -1,5 +1,7 @@
 ﻿using api_catalogo.Context;
 using api_catalogo.Models;
+using api_catalogo.Pagination;
+using api_catalogo.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace api_catalogo.Repository
@@ -9,10 +11,17 @@ namespace api_catalogo.Repository
         public CategoriaRepository(AppDbContext appDbContext) : base(appDbContext)
         {
         }
+        public PagedList<Categoria> GetCategoriasParameter(CategoriasParameters categoriaParameters)
+        {
+            return PagedList<Categoria>.ToPagedList(Get().OrderBy(on => on.Nome),
+                categoriaParameters.PageNumber,
+                categoriaParameters.PageSize);
+        }
 
         public IEnumerable<Categoria> GetCategoriasProdutos()
         {
             return Get().Include(x => x.Produtos);
         }
+
     }
 }

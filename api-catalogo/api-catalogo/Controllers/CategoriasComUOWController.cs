@@ -1,6 +1,7 @@
 ﻿using api_catalogo.DTOs;
 using api_catalogo.Models;
-using api_catalogo.Repository;
+using api_catalogo.Pagination;
+using api_catalogo.Repository.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,14 +30,24 @@ namespace api_catalogo.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<CategoriaDTO>> GetCategorias()
+        public ActionResult<IEnumerable<CategoriaDTO>> GetCategorias([FromQuery] CategoriasParameters categoriasParameters)
         {
             try
             {
-                var categorias = _unitOfWork.CategoriaRepository.Get().ToList();
+                var categorias = _unitOfWork.CategoriaRepository.GetCategoriasParameter(categoriasParameters);
 
                 if (categorias is null)
                     return NotFound("Categorias não encontrados");
+
+                var metadata = new
+                {
+                    categorias.TotalCount,
+                    categorias.PageSize,
+                    categorias.CurrentPage,
+                    categorias.TotalPages,
+                    categorias.HasNext,
+                    categorias.HasPrevious
+                };
 
                 var categoriasDto = _mapper.Map<List<CategoriaDTO>>(categorias);
 

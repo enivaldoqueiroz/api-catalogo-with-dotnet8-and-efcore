@@ -4,6 +4,7 @@ using api_catalogo.Extensions;
 using api_catalogo.Filters;
 using api_catalogo.Logging;
 using api_catalogo.Repository;
+using api_catalogo.Repository.Interfaces;
 using api_catalogo.Services;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;

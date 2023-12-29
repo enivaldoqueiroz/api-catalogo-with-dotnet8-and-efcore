@@ -1,6 +1,7 @@
 ﻿using api_catalogo.Context;
 using api_catalogo.Models;
 using api_catalogo.Pagination;
+using api_catalogo.Repository.Interfaces;
 
 namespace api_catalogo.Repository
 {

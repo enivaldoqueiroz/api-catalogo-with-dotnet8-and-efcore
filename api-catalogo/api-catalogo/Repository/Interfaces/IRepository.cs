@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace api_catalogo.Repository
+namespace api_catalogo.Repository.Interfaces
 {
     public interface IRepository<T> //Interface Generica
     {

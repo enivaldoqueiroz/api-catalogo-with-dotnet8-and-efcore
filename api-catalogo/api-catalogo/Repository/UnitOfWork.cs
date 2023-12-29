@@ -1,4 +1,5 @@
 ﻿using api_catalogo.Context;
+using api_catalogo.Repository.Interfaces;
 
 namespace api_catalogo.Repository
 {
