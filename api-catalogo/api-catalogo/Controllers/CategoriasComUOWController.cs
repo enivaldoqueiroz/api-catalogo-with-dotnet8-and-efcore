@@ -4,6 +4,7 @@ using api_catalogo.Pagination;
 using api_catalogo.Repository.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace api_catalogo.Controllers
 {
@@ -48,6 +49,8 @@ namespace api_catalogo.Controllers
                     categorias.HasNext,
                     categorias.HasPrevious
                 };
+
+                Response.Headers.Append("X-Panigation", JsonSerializer.Serialize(metadata));
 
                 var categoriasDto = _mapper.Map<List<CategoriaDTO>>(categorias);
 

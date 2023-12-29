@@ -30,15 +30,24 @@ namespace api_catalogo.Controllers
             return produtoDTO;
         }
 
+        /// <summary>
+        /// Obtém uma lista paginada de produtos com base nos parâmetros fornecidos.
+        /// </summary>
+        /// <param name="produtosParameters">Parâmetros de paginação e filtro.</param>
+        /// <returns>Uma ActionResult contendo uma lista paginada de produtos no formato ProdutoDTO.</returns>
         [HttpGet]
-        public ActionResult<IEnumerable<ProdutoDTO>> GetProdutos([FromQuery] ProdutosParameters produtosParameters) 
-        { 
+        public ActionResult<IEnumerable<ProdutoDTO>> GetProdutos([FromQuery] ProdutosParameters produtosParameters)
+        {
+            // Chama o método do repositório para obter os produtos com base nos parâmetros.
             var produtos = _unitOfWork.ProdutoRepository.GetProdutosParameter(produtosParameters);
+
+            // Verifica se não foram encontrados produtos.
             if (produtos is null)
                 return NotFound("Produtos não encontrados");
 
-            var matadata = new 
-            { 
+            // Cria um objeto de metadados para incluir informações de paginação na resposta.
+            var metadata = new
+            {
                 produtos.TotalCount,
                 produtos.PageSize,
                 produtos.CurrentPage,
@@ -47,13 +56,16 @@ namespace api_catalogo.Controllers
                 produtos.HasPrevious
             };
 
-            Response.Headers.Append("X-Panigation", JsonSerializer.Serialize(matadata));
+            // Adiciona os metadados aos cabeçalhos da resposta.
+            Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(metadata));
 
-            var ProdutosDto = _mapper.Map<List<ProdutoDTO>>(produtos);
+            // Converte a lista de produtos para ProdutoDTO usando AutoMapper.
+            var produtosDto = _mapper.Map<List<ProdutoDTO>>(produtos);
 
-            return ProdutosDto;
+            // Retorna a lista paginada de produtos no formato ProdutoDTO.
+            return produtosDto;
         }
-       
+
         // /api/produtos/id
         [HttpGet("{id}")]
         [ActionName(nameof(GetProdutoComUOWById))]
