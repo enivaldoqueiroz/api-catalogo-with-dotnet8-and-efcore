@@ -12,10 +12,14 @@ namespace api_catalogo.Repository
             _appDbContext = appDbContext;
         }
 
+        // Propriedade ProdutoRepository:
+        // - Esta propriedade é uma instância do IProdutoRepository, que representa um repositório de produtos.
         public IProdutoRepository ProdutoRepository
         {
             get
             {
+                // Se a instância do _produtoRepository ainda não foi inicializada, cria uma nova instância
+                // do ProdutoRepository, utilizando o contexto do aplicativo (_appDbContext).
                 return _produtoRepository = _produtoRepository ?? new ProdutoRepository(_appDbContext);
             }
         }

@@ -1,5 +1,6 @@
 ﻿using api_catalogo.DTOs;
 using api_catalogo.Models;
+using api_catalogo.Pagination;
 using api_catalogo.Repository;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -29,9 +30,9 @@ namespace api_catalogo.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ProdutoDTO>> GetProdutos() 
+        public ActionResult<IEnumerable<ProdutoDTO>> GetProdutos([FromQuery] ProdutosParameters produtosParameters) 
         { 
-            var produtos = _unitOfWork.ProdutoRepository.Get().ToList();
+            var produtos = _unitOfWork.ProdutoRepository.GetProdutosParameter(produtosParameters).ToList();
             if (produtos is null)
                 return NotFound("Produtos não encontrados");
 
