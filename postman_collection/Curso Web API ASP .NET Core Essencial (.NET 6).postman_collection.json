@@ -216,6 +216,36 @@
 							"response": []
 						},
 						{
+							"name": "GetProdutosParameter",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:7033/api/ProdutosComUOW?PageNumber=1&PageSize=2",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7033",
+									"path": [
+										"api",
+										"ProdutosComUOW"
+									],
+									"query": [
+										{
+											"key": "PageNumber",
+											"value": "1"
+										},
+										{
+											"key": "PageSize",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "UpdateProdutosById",
 							"request": {
 								"method": "PUT",
@@ -423,6 +453,26 @@
 						},
 						{
 							"name": "GetCategorias",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:7033/api/CategoriasComUOW",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7033",
+									"path": [
+										"api",
+										"CategoriasComUOW"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetCategoriasParameter",
 							"request": {
 								"method": "GET",
 								"header": [],
