@@ -4,6 +4,7 @@ using api_catalogo.Pagination;
 using api_catalogo.Repository;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace api_catalogo.Controllers
 {
@@ -32,9 +33,21 @@ namespace api_catalogo.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<ProdutoDTO>> GetProdutos([FromQuery] ProdutosParameters produtosParameters) 
         { 
-            var produtos = _unitOfWork.ProdutoRepository.GetProdutosParameter(produtosParameters).ToList();
+            var produtos = _unitOfWork.ProdutoRepository.GetProdutosParameter(produtosParameters);
             if (produtos is null)
                 return NotFound("Produtos não encontrados");
+
+            var matadata = new 
+            { 
+                produtos.TotalCount,
+                produtos.PageSize,
+                produtos.CurrentPage,
+                produtos.TotalPages,
+                produtos.HasNext,
+                produtos.HasPrevious
+            };
+
+            Response.Headers.Append("X-Panigation", JsonSerializer.Serialize(matadata));
 
             var ProdutosDto = _mapper.Map<List<ProdutoDTO>>(produtos);
 
