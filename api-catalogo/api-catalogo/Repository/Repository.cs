@@ -19,11 +19,11 @@ namespace api_catalogo.Repository
             return _appDbContext.Set<T>().AsNoTracking();
         }
 
-        public T GetById(Expression<Func<T, bool>> predicate)
+        public async Task<T> GetById(Expression<Func<T, bool>> predicate)
         {
             if (predicate == null) throw new ArgumentNullException(nameof(predicate));
 
-            return _appDbContext.Set<T>().AsNoTracking().SingleOrDefault(predicate);
+            return await _appDbContext.Set<T>().AsNoTracking().SingleOrDefaultAsync(predicate);
         }
 
         //O método Set<T> do contexto retorna uma instância DbSet<T>

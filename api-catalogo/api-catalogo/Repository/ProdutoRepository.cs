@@ -2,6 +2,7 @@
 using api_catalogo.Models;
 using api_catalogo.Pagination;
 using api_catalogo.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace api_catalogo.Repository
 {
@@ -35,9 +36,9 @@ namespace api_catalogo.Repository
         //        .ToList();
         //}
 
-        public IEnumerable<Produto> GetProdutosPorPreco()
+        public async Task<IEnumerable<Produto>> GetProdutosPorPreco()
         {
-            return Get().OrderBy(c => c.Preco).ToList();
+            return await Get().OrderBy(c => c.Preco).ToListAsync();
         }
     }
 }

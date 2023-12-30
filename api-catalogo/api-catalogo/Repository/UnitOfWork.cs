@@ -33,9 +33,9 @@ namespace api_catalogo.Repository
             }
         }
 
-        public void Commit()
+        public async Task Commit()
         {
-            _appDbContext.SaveChanges();
+            await _appDbContext.SaveChangesAsync();
         }
 
         public void Rollback()

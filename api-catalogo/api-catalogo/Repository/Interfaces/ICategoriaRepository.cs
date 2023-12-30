@@ -7,6 +7,7 @@ namespace api_catalogo.Repository.Interfaces
     {
         PagedList<Categoria> GetCategoriasParameter(CategoriasParameters categoriasParameters);
 
-        IEnumerable<Categoria> GetCategoriasProdutos();
+        Task<IEnumerable<Categoria>> GetCategoriasProdutos();
+    }
     }
 }

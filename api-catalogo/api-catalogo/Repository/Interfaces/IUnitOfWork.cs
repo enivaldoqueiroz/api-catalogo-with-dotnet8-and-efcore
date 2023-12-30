@@ -6,7 +6,7 @@
 
         ICategoriaRepository CategoriaRepository { get; }
 
-        void Commit();
+        Task Commit();
 
         void Rollback();
     }
