@@ -9,5 +9,4 @@ namespace api_catalogo.Repository.Interfaces
 
         Task<IEnumerable<Categoria>> GetCategoriasProdutos();
     }
-    }
 }

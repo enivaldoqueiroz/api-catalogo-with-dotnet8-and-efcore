@@ -62,7 +62,7 @@ namespace api_catalogo.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post(Produto produto)
+        public async Task<ActionResult> Post(Produto produto)
         {
             if (produto is null)
                 return BadRequest("Dados Invalidos.");

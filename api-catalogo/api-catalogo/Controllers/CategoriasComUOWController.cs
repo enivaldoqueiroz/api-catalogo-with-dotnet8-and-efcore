@@ -4,6 +4,7 @@ using api_catalogo.Pagination;
 using api_catalogo.Repository.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 
 namespace api_catalogo.Controllers
@@ -22,12 +23,32 @@ namespace api_catalogo.Controllers
         }
 
         [HttpGet("produtos")]
-        public ActionResult<IEnumerable<CategoriaDTO>> GetCategoriasProdutos()
+        public async Task<ActionResult<IEnumerable<CategoriaDTO>>> GetCategoriasProdutos()
         {
-            var categorias = _unitOfWork.CategoriaRepository.GetCategoriasProdutos().ToList();
+            var categorias = await _unitOfWork.CategoriaRepository.GetCategoriasProdutos();
             var categoriasDto = _mapper.Map<List<CategoriaDTO>>(categorias);
             
             return categoriasDto;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<CategoriaDTO>>> GetCategorias()
+        {
+            try
+            {
+                var categorias = await _unitOfWork.CategoriaRepository.Get().ToListAsync();
+
+                if (categorias is null)
+                    return NotFound("Categorias não encontrados");
+
+                var categoriasDto = _mapper.Map<List<CategoriaDTO>>(categorias);
+
+                return categoriasDto;
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Ocorreu um problema ao tratar a sua solicitação. Entre em contato com o suporte.");
+            }
         }
 
         [HttpGet]
@@ -63,12 +84,12 @@ namespace api_catalogo.Controllers
         }
 
         [HttpGet("{id:int}")]
-        [ActionName(nameof(GetCategoriasProdutosById))]
-        public ActionResult<CategoriaDTO> GetCategoriasProdutosById(int id)
+        [ActionName(nameof(GetCategoriasById))]
+        public async Task<ActionResult<CategoriaDTO>> GetCategoriasById(int id)
         {
             try
             {
-                var categoria = _unitOfWork.CategoriaRepository.GetCategoriasProdutos().FirstOrDefault(p => p.CategoriaId == id);
+                var categoria = await _unitOfWork.CategoriaRepository.GetById(p => p.CategoriaId == id);
 
                 if (categoria == null)
                     return NotFound($"Categoria com id = {id} não encontrado...");
@@ -85,7 +106,7 @@ namespace api_catalogo.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post(CategoriaDTO categoriaDto)
+        public async Task<ActionResult> Post(CategoriaDTO categoriaDto)
         {
             if (categoriaDto is null)
                 return BadRequest("Dados Invalidos.");
@@ -93,13 +114,13 @@ namespace api_catalogo.Controllers
             var categoria = _mapper.Map<Categoria>(categoriaDto);
 
             _unitOfWork.CategoriaRepository.Add(categoria);
-            _unitOfWork.Commit();
+            await _unitOfWork.Commit();
 
-            return CreatedAtAction("GetCategoriasProdutosById", new { id = categoria.CategoriaId }, categoria);
+            return CreatedAtAction("GetCategoriasById", new { id = categoria.CategoriaId }, categoria);
         }
 
         [HttpPut("{id:int}")]
-        public ActionResult Put(int id, CategoriaDTO categoriaDto)
+        public async Task<ActionResult> Put(int id, CategoriaDTO categoriaDto)
         {
             if (id != categoriaDto.CategoriaId)
                 return BadRequest("Dados Invalidos.");
@@ -107,7 +128,7 @@ namespace api_catalogo.Controllers
             var categoria = _mapper.Map<Categoria>(categoriaDto);
 
             _unitOfWork.CategoriaRepository.Update(categoria);
-            _unitOfWork.Commit();
+            await _unitOfWork.Commit();
 
             var categoriaDTO = _mapper.Map<CategoriaDTO>(categoria);
 
@@ -115,15 +136,15 @@ namespace api_catalogo.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            var categoria = _unitOfWork.CategoriaRepository.GetCategoriasProdutos().FirstOrDefault(p => p.CategoriaId == id);
+            var categoria = await _unitOfWork.CategoriaRepository.GetById(p => p.CategoriaId == id);
 
             if (categoria is null)
                 return NotFound($"Categoria com id = {id} não encontrado...");
 
             _unitOfWork.CategoriaRepository.Delete(categoria);
-            _unitOfWork.Commit();
+            await _unitOfWork.Commit();
 
             var categoriaDto = _mapper.Map<CategoriaDTO>(categoria);
 
