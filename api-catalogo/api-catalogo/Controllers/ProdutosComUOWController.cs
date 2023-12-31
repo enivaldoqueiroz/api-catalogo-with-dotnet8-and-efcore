@@ -37,10 +37,11 @@ namespace api_catalogo.Controllers
         /// <param name="produtosParameters">Parâmetros de paginação e filtro.</param>
         /// <returns>Uma ActionResult contendo uma lista paginada de produtos no formato ProdutoDTO.</returns>
         [HttpGet]
-        public ActionResult<IEnumerable<ProdutoDTO>> GetProdutos([FromQuery] ProdutosParameters produtosParameters)
+        [Route("GetProdutosComPaginacao")]
+        public async Task<ActionResult<IEnumerable<ProdutoDTO>>> GetProdutos([FromQuery] ProdutosParameters produtosParameters)
         {
             // Chama o método do repositório para obter os produtos com base nos parâmetros.
-            var produtos = _unitOfWork.ProdutoRepository.GetProdutosParameter(produtosParameters);
+            var produtos = await _unitOfWork.ProdutoRepository.GetProdutosParameter(produtosParameters);
 
             // Verifica se não foram encontrados produtos.
             if (produtos is null)
@@ -69,6 +70,7 @@ namespace api_catalogo.Controllers
 
         // /api/produtos
         [HttpGet]
+        [Route("GetProdutosSemPaginacao")]
         public async Task<ActionResult<ProdutoDTO>> GetProdutos()
         {
             var produtos = _unitOfWork.ProdutoRepository.Get().ToListAsync();

@@ -5,7 +5,7 @@ namespace api_catalogo.Repository.Interfaces
 {
     public interface ICategoriaRepository : IRepository<Categoria>
     {
-        PagedList<Categoria> GetCategoriasParameter(CategoriasParameters categoriasParameters);
+        Task<PagedList<Categoria>> GetCategoriasParameter(CategoriasParameters categoriasParameters);
 
         Task<IEnumerable<Categoria>> GetCategoriasProdutos();
     }

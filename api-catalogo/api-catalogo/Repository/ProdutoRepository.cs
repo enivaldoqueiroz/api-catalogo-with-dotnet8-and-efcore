@@ -12,9 +12,9 @@ namespace api_catalogo.Repository
         {
         }
 
-        public PagedList<Produto> GetProdutosParameter(ProdutosParameters produtosParameters)
+        public async Task<PagedList<Produto>> GetProdutosParameter(ProdutosParameters produtosParameters)
         {
-            return PagedList<Produto>.ToPagedList(Get().OrderBy(on => on.ProdutoId), 
+            return await PagedList<Produto>.ToPagedList(Get().OrderBy(on => on.ProdutoId), 
                 produtosParameters.PageNumber, produtosParameters.PageSize);
         }
 

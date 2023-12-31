@@ -32,6 +32,7 @@ namespace api_catalogo.Controllers
         }
 
         [HttpGet]
+        [Route("GetCategoriasSemPaginacao")]
         public async Task<ActionResult<IEnumerable<CategoriaDTO>>> GetCategorias()
         {
             try
@@ -52,11 +53,12 @@ namespace api_catalogo.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<CategoriaDTO>> GetCategorias([FromQuery] CategoriasParameters categoriasParameters)
+        [Route("GetCategoriasComPaginacao")]
+        public async Task<ActionResult<IEnumerable<CategoriaDTO>>> GetCategorias([FromQuery] CategoriasParameters categoriasParameters)
         {
             try
             {
-                var categorias = _unitOfWork.CategoriaRepository.GetCategoriasParameter(categoriasParameters);
+                var categorias = await _unitOfWork.CategoriaRepository.GetCategoriasParameter(categoriasParameters);
 
                 if (categorias is null)
                     return NotFound("Categorias não encontrados");

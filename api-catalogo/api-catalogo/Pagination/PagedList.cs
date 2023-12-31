@@ -1,4 +1,6 @@
-﻿namespace api_catalogo.Pagination
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace api_catalogo.Pagination
 {
     // A classe PagedList<T> representa uma lista paginada de itens do tipo T.
     public class PagedList<T> : List<T>
@@ -34,13 +36,13 @@
         // - source: Fonte IQueryable dos itens.
         // - pageNumber: Número da página desejada.
         // - pageSize: Tamanho da página.
-        public static PagedList<T> ToPagedList(IQueryable<T> source, int pageNumber, int pageSize)
+        public async static Task<PagedList<T>> ToPagedList(IQueryable<T> source, int pageNumber, int pageSize)
         {
             // Obtém o total de itens na fonte.
             var count = source.Count();
 
             // Seleciona os itens da página desejada.
-            var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+            var items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
 
             // Retorna uma nova instância de PagedList com os itens, número total de itens, número da página e tamanho da página.
             return new PagedList<T>(items, pageNumber, pageSize, count);
