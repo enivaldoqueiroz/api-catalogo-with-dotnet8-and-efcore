@@ -7,6 +7,7 @@ using api_catalogo.Repository;
 using api_catalogo.Repository.Interfaces;
 using api_catalogo.Services;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -32,6 +33,11 @@ builder.Services.AddDbContext<AppDbContext>
     {
         opts.UseNpgsql(connectionString);
     });
+
+//Add Serviços do JWT
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddScoped<ApiLoggingFilter>();
 builder.Services.AddTransient<IMeuServico, MeuServico>();
@@ -66,6 +72,11 @@ app.ConfigureExceptionHandler();//Middle de tramento de erros personalizado
 
 app.UseHttpsRedirection();
 
+//Middleware de roteamento
+app.UseRouting();
+//Middleware que habilita a autenticacao
+app.UseAuthentication();
+//Middleware que habilita a autorizacao
 app.UseAuthorization();
 
 app.MapControllers();//Método responsável por mapear os Endpoint dos controladores
