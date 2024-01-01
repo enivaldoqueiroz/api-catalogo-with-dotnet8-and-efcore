@@ -7,9 +7,13 @@ using api_catalogo.Repository;
 using api_catalogo.Repository.Interfaces;
 using api_catalogo.Services;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,10 +38,32 @@ builder.Services.AddDbContext<AppDbContext>
         opts.UseNpgsql(connectionString);
     });
 
-//Add Serviços do JWT
+//Add Serviços do Identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
+
+//Add Serviço do Token JWT
+/*
+ Adiciona o manipulador de autendicacao e define o
+ esquema de autenticacao usado : Bearer
+ valida o emissor, a audiencia e a chave
+ usando a chave secreta valida a assinatura
+ */
+builder.Services.AddAuthentication(
+        JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options =>
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidAudience = builder.Configuration["TokenConfiguration:Audience"],
+                ValidIssuer = builder.Configuration["TokenConfiguration:Issuer"],
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(builder.Configuration["Jwt:key"]))
+            });
 
 builder.Services.AddScoped<ApiLoggingFilter>();
 builder.Services.AddTransient<IMeuServico, MeuServico>();

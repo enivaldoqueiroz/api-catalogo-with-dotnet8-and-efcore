@@ -3,6 +3,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace api_catalogo.Controllers
 {
@@ -12,11 +16,13 @@ namespace api_catalogo.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly IConfiguration _configuration;
 
-        public AutorizaController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public AutorizaController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _configuration = configuration;
         }
 
         [HttpGet]
@@ -45,7 +51,7 @@ namespace api_catalogo.Controllers
 
             await _signInManager.SignInAsync(user, isPersistent: false);
 
-            return Ok();
+            return Ok(GeraToken(usuarioDTO));
         }
 
         [HttpPost("login")]
@@ -62,12 +68,49 @@ namespace api_catalogo.Controllers
                                                                   lockoutOnFailure: false);
 
             if (result.Succeeded)
-                return Ok();
+                return Ok(GeraToken(userInfo));
             else
             {
                 ModelState.AddModelError(string.Empty, "Login Inválido....");
                 return Ok(ModelState);
             }
+        }
+
+        private UsuarioToken GeraToken(UsuarioDTO userInfo)
+        {
+            //define declarações do usuario
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.UniqueName, userInfo.Email),
+                new Claim("Enivaldo", "Soldado S1"),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            //gera uma chave com base em um algoritmo simetrico
+            var key = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(_configuration["Jwt:key"]));
+            //gera a assinatura digital do token usando o algoritmo HMAC e a chave privada
+            var credenciais = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            //tempo de expiracao do token
+            var expiracao = _configuration["TokenConfiguration:ExpireHours"];
+            var expiration = DateTime.UtcNow.AddHours(double.Parse(expiracao));
+
+            //classe que representa um token JWT e gera o token
+            JwtSecurityToken token = new JwtSecurityToken(
+                issuer: _configuration["TokenConfiguration:Issuer"],
+                audience: _configuration["TokenConfiguration:Audience"],
+                claims: claims,
+                expires: expiration,
+                signingCredentials: credenciais);
+
+            return new UsuarioToken()
+            {
+                Authenticated = true,
+                Token = new JwtSecurityTokenHandler().WriteToken(token),
+                Expiration = expiration,
+                Message = "Token JWT OK"
+            };
         }
     }
 }
