@@ -3,12 +3,14 @@ using api_catalogo.Models;
 using api_catalogo.Pagination;
 using api_catalogo.Repository.Interfaces;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 
 namespace api_catalogo.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]//DataAnnotation para autenticar com o Bearer
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriasComUOWController : ControllerBase

@@ -1,8 +1,7 @@
 ﻿using api_catalogo.DTOs;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -10,6 +9,7 @@ using System.Text;
 
 namespace api_catalogo.Controllers
 {
+    //[Authorize(AuthenticationSchemes = "Bearer")]//DataAnnotation para autenticar com o Bearer
     [Route("api/[controller]")]
     [ApiController]
     public class AutorizaController : ControllerBase
