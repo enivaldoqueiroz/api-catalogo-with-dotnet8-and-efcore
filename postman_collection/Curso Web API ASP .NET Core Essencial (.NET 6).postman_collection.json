@@ -1,10 +1,9 @@
 {
 	"info": {
-		"_postman_id": "1f7e4950-fa87-4e7f-ae66-c636cf956dbe",
+		"_postman_id": "f4c9e68c-cca6-454d-8ecf-52d357bd573b",
 		"name": "Curso Web API ASP .NET Core Essencial (.NET 6)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "31428447",
-		"_collection_link": "https://gold-shuttle-243800.postman.co/workspace/API-Setling~7597153e-0a50-42de-8116-8f9f8d3ba9eb/collection/31428447-1f7e4950-fa87-4e7f-ae66-c636cf956dbe?action=share&source=collection_link&creator=31428447"
+		"_exporter_id": "16098738"
 	},
 	"item": [
 		{
@@ -541,6 +540,79 @@
 							"response": []
 						}
 					]
+				}
+			]
+		},
+		{
+			"name": "AutorizaController",
+			"item": [
+				{
+					"name": "Autoriza",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Registro",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"jose.queiroz@gmail.com\",\r\n  \"password\": \"striNG@123\",\r\n  \"confirmPassword\": \"striNG@123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7033/api/Autoriza/register",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7033",
+							"path": [
+								"api",
+								"Autoriza",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"jose.queiroz@gmail.com\",\r\n  \"password\": \"striNG@123\",\r\n  \"confirmPassword\": \"striNG@123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7033/api/Autoriza/login",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7033",
+							"path": [
+								"api",
+								"Autoriza",
+								"login"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
