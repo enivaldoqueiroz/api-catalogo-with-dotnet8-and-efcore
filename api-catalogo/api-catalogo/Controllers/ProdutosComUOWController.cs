@@ -3,6 +3,7 @@ using api_catalogo.Models;
 using api_catalogo.Pagination;
 using api_catalogo.Repository.Interfaces;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +11,7 @@ using System.Text.Json;
 
 namespace api_catalogo.Controllers
 {
-    [Authorize(AuthenticationSchemes = "Bearer")]//DataAnnotation para autenticar com o Bearer
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]//DataAnnotation para autenticar com o Bearer
     [Route("api/[controller]")]//Rotas produtos
     [ApiController]
     public class ProdutosComUOWController : ControllerBase
