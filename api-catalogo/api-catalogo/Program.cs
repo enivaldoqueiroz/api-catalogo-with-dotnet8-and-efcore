@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
+using Asp.Versioning;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -115,6 +116,14 @@ builder.Services.AddSingleton(mapper);
 //        builder.WithOrigins("http://www.apirequest.io")
 //                .WithMethods("GET"));
 //});
+
+//Serviço de versionamento na API
+builder.Services.AddApiVersioning(options =>
+{
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.DefaultApiVersion = new ApiVersion(1,0);
+    options.ReportApiVersions = true;
+});
 
 var app = builder.Build();
 
