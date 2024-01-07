@@ -13,9 +13,9 @@ using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 using Asp.Versioning;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +25,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions
     .ReferenceHandler = ReferenceHandler.IgnoreCycles);//Ignora uma referencia cicla
-
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -57,6 +56,11 @@ builder.Services.AddSwaggerGen(c =>
             new string[] {}
         }
     });
+
+    //Inserindo comentario comentario XML nos EndPoints
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
 });
 
 //ConnectionStrings

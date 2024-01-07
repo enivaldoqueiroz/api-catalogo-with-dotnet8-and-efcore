@@ -90,6 +90,11 @@ namespace api_catalogo.Controllers
             }
         }
 
+        /// <summary>
+        /// Obte uma Categoria pelo seu Id
+        /// </summary>
+        /// <param name="id">codigo da categoria</param>
+        /// <returns>Objetos Cateria</returns>
         [HttpGet("{id:int}")]
         [ActionName(nameof(GetCategoriasById))]
         public async Task<ActionResult<CategoriaDTO>> GetCategoriasById(int id)
@@ -112,6 +117,22 @@ namespace api_catalogo.Controllers
             }
         }
 
+        /// <summary>
+        /// Incluir uma nova categoria
+        /// </summary>
+        /// <remarks>
+        /// Exemplo de request:
+        ///     
+        ///     POST api/categorias
+        ///     {
+        ///         "categoriaId": 1,
+        ///         "nome": "categoria",
+        ///         "imagemUrl": "http:/teste.net/1.jpg"
+        ///     }
+        /// </remarks>
+        /// <param name="categoriaDto">objeto Categoria</param>
+        /// <returns>O objetivo Categoria incluida</returns>
+        /// <remarks>Retorno um objeto Categoria incluido</remarks>
         [HttpPost]
         public async Task<ActionResult> Post(CategoriaDTO categoriaDto)
         {
