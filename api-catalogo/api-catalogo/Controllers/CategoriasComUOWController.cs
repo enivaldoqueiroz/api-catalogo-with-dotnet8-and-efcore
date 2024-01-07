@@ -4,6 +4,7 @@ using api_catalogo.Pagination;
 using api_catalogo.Repository.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
@@ -13,6 +14,7 @@ namespace api_catalogo.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]//DataAnnotation para autenticar com o Bearer
     [Route("api/[controller]")]
     [ApiController]
+    //[EnableCors("PermitirApiRequest")]
     public class CategoriasComUOWController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -24,7 +26,8 @@ namespace api_catalogo.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("produtos")]
+        [HttpGet("categorias")]
+        [EnableCors("PermitirApiRequest")]
         public async Task<ActionResult<IEnumerable<CategoriaDTO>>> GetCategoriasProdutos()
         {
             var categorias = await _unitOfWork.CategoriaRepository.GetCategoriasProdutos();

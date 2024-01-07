@@ -107,6 +107,15 @@ var mappingConfig = new MapperConfiguration(mc =>
 IMapper mapper = mappingConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
 
+//Habilitando CORS para usar via parametro
+//builder.Services.AddCors(optons =>
+//{
+//    optons.AddPolicy("PermitirApiRequest",
+//        builder =>
+//        builder.WithOrigins("http://www.apirequest.io")
+//                .WithMethods("GET"));
+//});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -134,6 +143,13 @@ app.UseRouting();
 app.UseAuthentication();
 //Middleware que habilita a autorizacao
 app.UseAuthorization();
+
+//Determina que a api catalogo possa rebecer requisições do apirequest.oi
+//AllowAnyMethod() permite todos os métodos HTTP
+//With.Methods("GET") restringe a requisição para apenas o verbo GET
+//app.UseCors(ops => ops
+//    .WithOrigins("https://www.apirequest.oi/")
+//    .WithMethods("GET"));
 
 app.MapControllers();//Método responsável por mapear os Endpoint dos controladores
 
